@@ -30,7 +30,7 @@ def softmax(wx):
     return sfm
 
 
-# 计算梯度方法，增加了正则化
+# Calculate the gradient with regularization term,
 def gredient(X, y, W, lmd=0.01):
     # Calculate the conditianal probability using softmax function.
     try:
@@ -53,7 +53,7 @@ def gredient(X, y, W, lmd=0.01):
     return gre + R
 
 
-# 交叉熵损失, 增加了正则化
+# Cross-entropy loss function with regularization term.
 def cross_entropy(X, y, W, lmd=0.01):
     P = softmax(X.dot(W))
     pred_prob = np.log(P)
@@ -99,13 +99,13 @@ def fit(X, y, W, lr=0.005, iterlimit=100, batch_size=10, lmd=0.01):
     return W, loss_hist
 
 
-# 输出预测结果
+# Predict the label.
 def predict(W, X):
     A = softmax(X.dot(W))
     return np.argmax(A, axis=1)
 
 
-# 预测准确率计算
+# Calculate the accuracy.
 def accuracy(y_pred, y_ture):
     try:
         out = sum(y_pred == y_ture)
@@ -136,6 +136,7 @@ def run(para):
     
     return loss_avg, acc
 
+# Use the parameter list to tune lambda and learning-rate.
 def tune():
     paralist = [0.0001, 0.001, 0.005, 0.01, 0.05, 0.1]
     losslist = []

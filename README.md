@@ -4,7 +4,7 @@ Implemented with NumPy and h5py.
 ## Dataset
 The dataset consists of a training set of 30,000 examples and a test set of 5,000 examples. They belong to 10 different categories. The validation set is not provided. The labels of the first 2,000 test examples are given. The rest 3,000 labels of the test set are reserved for marking purpose.<br />
 Here are examples illustrating sample of the dataset (each class takes one row):<br />
-<img src="img/Dataset_image.jpg" alt="DataSet" title="DataSet" width="450" height="300" />
+<img src="http://github.com/1lch2/LogisticRegressionClassifier/master/img/Dataset_image.jpg" alt="DataSet" title="DataSet" width="450" height="300" /><br />
 There are 10 classes in total:<br />
 0 T-shirt/Top<br />
 1 Trouser<br />

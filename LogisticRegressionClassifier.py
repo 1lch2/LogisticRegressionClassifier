@@ -124,7 +124,7 @@ def run(para):
     # Record the training time.
     time_start = time.time()
     W_init = np.random.randn(data_train_.shape[1], 10)
-    W, loss_hist = mini_batch_GD(data_train_, label_train, W_init, batch_size=20, iterlimit=800, lr=0.005, lmd=para)
+    W, loss_hist = fit(data_train_, label_train, W_init, batch_size=20, iterlimit=800, lr=0.005, lmd=para)
     time_end = time.time()
 
     label_predict = predict(W, data_test_)
@@ -161,22 +161,20 @@ def tune():
     plt.show()
 
 
-# Preprocess the input data.
-data_train_ = preprocess(data_train)
-data_test_ = preprocess(data_test[:5000])
-
-# Record the training time.
-time_start = time.time()
-W_init = np.random.randn(data_train_.shape[1], 10)
-W, _losshistory = mini_batch_GD(data_train_, label_train, W_init, batch_size=20, iterlimit=800, lr=0.005, lmd=0.01)
-time_end = time.time()
-
-# Make predictions.
-label_predict = predict(W, data_test_)
-
-# Write prediction into file.
-h5file = h5py.File('./predicted_labels.h5', 'w')
-h5file.create_dataset('output', data=label_predict)
-
 if __name__ == '__main__':
-    run()
+    # Preprocess the input data.
+    data_train_ = preprocess(data_train)
+    data_test_ = preprocess(data_test[:5000])
+
+    # Record the training time.
+    time_start = time.time()
+    W_init = np.random.randn(data_train_.shape[1], 10)
+    W, _losshistory = fit(data_train_, label_train, W_init, batch_size=20, iterlimit=800, lr=0.005, lmd=0.01)
+    time_end = time.time()
+
+    # Make predictions.
+    label_predict = predict(W, data_test_)
+
+    # Write prediction into file.
+    h5file = h5py.File('./predicted_labels.h5', 'w')
+    h5file.create_dataset('output', data=label_predict)

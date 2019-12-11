@@ -16,7 +16,7 @@ There are 10 classes in total:<br />
 7 Sneaker<br />
 8 Bag<br />
 9 Ankle boot <br />
-## Code Instructions
+## Code Instructions (for .ipynb only)
 Put .ipynb file, 'Input' and 'Output' folder under the same directory.<br />
 Training and testing data are located in 'Input' folder.<br />
 predict_labels.h5 file will be generated in 'Output' folder.

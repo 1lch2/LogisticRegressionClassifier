@@ -18,3 +18,5 @@ There are 10 classes in total:<br />
 Put .ipynb file, 'Input' and 'Output' folder under the same directory.<br />
 Training and testing data are located in 'Input' folder.<br />
 predict_labels.h5 file will be generated in 'Output' folder.
+## Reference
+[1]逻辑回归与交叉熵. https://zhuanlan.zhihu.com/p/38853901

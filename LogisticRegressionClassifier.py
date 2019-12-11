@@ -1,6 +1,7 @@
 import h5py
 import time
 import numpy as np
+import matplotlib.pyplot as plt
 
 # Import h5py into numpy matrices
 with h5py.File('./data/train/images_training.h5', 'r') as H:
@@ -115,25 +116,67 @@ def accuracy(y_pred, y_ture):
     else:
         return ratio
 
-
-def run():
+# Tuning parameters.
+def run(para):
     data_train_ = preprocess(data_train)
-    # data_test_ = preprocess(data_test[:2000])
     data_test_ = preprocess(data_test)
-
+    
+    # Record the training time.
     time_start = time.time()
     W_init = np.random.randn(data_train_.shape[1], 10)
-    W, loss_hist = fit(data_train_, label_train, W_init, batch_size=20, iterlimit=800, lr=0.005, lmd=0.01)
+    W, loss_hist = mini_batch_GD(data_train_, label_train, W_init, batch_size=20, iterlimit=800, lr=0.005, lmd=para)
     time_end = time.time()
 
     label_predict = predict(W, data_test_)
-    # print("Accuracy of model on test set: {:.2%}".format(accuracy(label_predict, label_test[:2000])))
+    print("Accuracy of model on test set: {:.2%}".format(accuracy(label_predict, label_test[:2000])))
     print("Time: {:.3f} s.".format(time_end - time_start))
+    
+    acc = accuracy(label_predict, label_test[:2000])
+    loss_avg = np.mean(loss_hist[-5])
+    
+    return loss_avg, acc
 
-    # Write prediction into file.
-    h5file = h5py.File('predicted_labels.h5', 'w')
-    h5file.create_dataset('output', data=label_predict)
+def tune():
+    paralist = [0.0001, 0.001, 0.005, 0.01, 0.05, 0.1]
+    losslist = []
+    acclist = []
 
+    for para in paralist:
+        l, a = run(para)
+        losslist.append(l)
+        acclist.append(a)
+    
+    # Draw the line chart of lambda and loss.
+    plt.plot(paralist, losslist)
+    plt.xlabel('learning rate', fontsize=12)
+    plt.ylabel('loss', fontsize=12)
+    plt.tick_params(axis='both', which='major', labelsize=12)
+    plt.show()
+    
+    # Draw the line chart of lambda and accuracy.
+    plt.plot(paralist, acclist)
+    plt.xlabel('learning rate', fontsize=12)
+    plt.ylabel('accuracy', fontsize=12)
+    plt.tick_params(axis='both', which='major', labelsize=12)
+    plt.show()
+
+
+# Preprocess the input data.
+data_train_ = preprocess(data_train)
+data_test_ = preprocess(data_test[:5000])
+
+# Record the training time.
+time_start = time.time()
+W_init = np.random.randn(data_train_.shape[1], 10)
+W, _losshistory = mini_batch_GD(data_train_, label_train, W_init, batch_size=20, iterlimit=800, lr=0.005, lmd=0.01)
+time_end = time.time()
+
+# Make predictions.
+label_predict = predict(W, data_test_)
+
+# Write prediction into file.
+h5file = h5py.File('./predicted_labels.h5', 'w')
+h5file.create_dataset('output', data=label_predict)
 
 if __name__ == '__main__':
     run()

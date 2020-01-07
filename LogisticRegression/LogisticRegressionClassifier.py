@@ -17,7 +17,7 @@ with h5py.File('./data/test/labels_testing_2000.h5', 'r') as T:
 labels = np.unique(label_train)
 C = len(labels)
 
-
+# Adding an extra column with 1 to input X martix
 def preprocess(X):
     temp = np.ones((X.shape[0], 1))
     X_ = np.c_[temp, X]

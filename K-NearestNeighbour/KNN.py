@@ -39,8 +39,25 @@ def distance(test, train):
 
 
 # Sort the points by distance.
-def sort(distance):
-    pass
+def bubblesort(seq):
+    flag = True
+    r_seq = seq.copy()
+
+    while flag :
+        flag = False
+        i = 0
+
+        while i < len(r_seq) - 1:
+            temp = r_seq[i]
+            if r_seq[i] > r_seq[i+1] :
+                r_seq[i] = r_seq[i+1]
+                r_seq[i+1] = temp
+                flag = True
+            else:
+                pass
+            i += 1
+    
+    return r_seq
 
 
 # Get the first K nearest neighbours and count the vote.

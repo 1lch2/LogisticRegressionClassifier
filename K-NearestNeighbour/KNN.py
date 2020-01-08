@@ -41,12 +41,12 @@ def distance(test, train):
 # Sort the points by distance.
 def bubblesort(seq):
     flag = True
-    r_seq = seq.copy()
 
+    # Use deep copy to avoid change to the original sequence.
+    r_seq = seq.copy()
     while flag :
         flag = False
         i = 0
-
         while i < len(r_seq) - 1:
             temp = r_seq[i]
             if r_seq[i] > r_seq[i+1] :
@@ -58,6 +58,32 @@ def bubblesort(seq):
             i += 1
     
     return r_seq
+
+
+# Quick sort will not be used in this program.
+def quicksort(seq, low, high):
+    i = low
+    j = high
+    
+    if low < high:
+        base = seq[low]
+        while i < j:
+            while seq[j] > base and j > i:
+                j -= 1
+            if j > i:
+                seq[i] = seq[j]
+                i += 1
+            
+            while seq[i] < base and i < j:
+                i += 1
+            if i < j:
+                seq[j] = seq[i]
+                j -= 1
+            
+        seq[i] = base
+
+        quicksort(seq, low, i-1)
+        quicksort(seq, i+1, high)
 
 
 # Get the first K nearest neighbours and count the vote.

@@ -39,35 +39,55 @@ def distance(test, train):
 
 
 # Sort the points by distance.
-def bubblesort(seq):
+def bubblesort(seq, label):
     flag = True
     r_seq = seq.copy()
+    r_label = label.copy()
 
     while flag :
         flag = False
         i = 0
-
         while i < len(r_seq) - 1:
             temp = r_seq[i]
+            temp_l = r_label[i]
             if r_seq[i] > r_seq[i+1] :
                 r_seq[i] = r_seq[i+1]
+                r_label[i] = r_label[i+1]
+
                 r_seq[i+1] = temp
+                r_label[i+1] = temp_l
+
                 flag = True
-            else:
-                pass
             i += 1
-    
-    return r_seq
+
+    # Merge two list into a list of tuples.
+    return list(zip(r_seq, r_label))
 
 
 # Get the first K nearest neighbours and count the vote.
-def vote_count():
-    pass
+def vote_count(k, sorted_list, C):
+    vote_count = np.zeros(C)
+
+    i = 0
+    while i <= k:
+        index = sorted_list[i][1]
+        vote_count[index] += 1
+    
+    return np.argmax(vote_count)
 
 
 # Make predictions.
-def predict():
-    pass
+def predict(distance, label, k, C):
+    y_pred = np.zeros(np.shape(label))
+
+    i = 0
+    for single in distance:
+        sorted_list = bubblesort(single, label)
+        y_pred[i] = vote_count(k, sorted_list, C)
+        i += 1
+    
+    return y_pred
+
 
 # Calculate the accuracy.
 def accuracy(y_pred, y_ture):

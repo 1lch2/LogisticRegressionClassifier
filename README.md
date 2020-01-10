@@ -16,12 +16,20 @@ There are 10 classes in total:<br />
 7 Sneaker<br />
 8 Bag<br />
 9 Ankle boot <br />
+
 ## Code Instructions (for .ipynb only)
 Training and testing data are located in 'data' folder.<br />
 predict_labels.h5 file will be generated in 'Output' folder.
 ## Performance
+### Logistic Regression
 - Running time: 300s
 - Accuracy: 84%
+### K-NN
+- Running time: 
+- Accuracy:
+
 ## Reference
 [1]逻辑回归与交叉熵. https://zhuanlan.zhihu.com/p/38853901 <br />
-[2]12 回归算法 - 手写梯度下降代码. https://www.jianshu.com/p/a8aefacc4766
+[2]12 回归算法 - 手写梯度下降代码. https://www.jianshu.com/p/a8aefacc4766 <br />
+[3]机器学习之k-近邻（kNN）算法与Python实现. https://blog.csdn.net/moxigandashu/article/details/71169991 <br />
+[4]严蔚敏.数据结构 (C语言版).清华大学出版社

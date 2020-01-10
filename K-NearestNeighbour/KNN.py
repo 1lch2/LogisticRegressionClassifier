@@ -101,5 +101,47 @@ def accuracy(y_pred, y_ture):
         return ratio
     
 
+# Classifier runs from here.
+def main(k=3):
+    data_train, label_train, data_test, label_test, C = loaddata()
+
+    time_start = time.time()
+    D = distance(data_test[:2000], data_train)
+    label_predict = predict(D, label_train, k, C)
+    time_end = time.time()
+
+    print("Accuracy of model on test set: {:.2%}".format(accuracy(label_predict, label_test[:2000])))
+    print("Time: {:.3f} s.".format(time_end - time_start))
+
+    # Export the prediction into h5py file.
+    h5file = h5py.File('./predicted_labels.h5', 'w')
+    h5file.create_dataset('output', data=label_predict)
+
+
+def tuning():
+    k_list = range(10)
+
+    acc_list = []
+    for _k in k_list:
+        data_train, label_train, data_test, label_test, C = loaddata()
+
+        print('Tuning for K = ' + str(_k))
+        D = distance(data_test, data_train)
+        label_predict = predict(D, label_train, _k, C)
+        acc = accuracy(label_predict, label_test[:2000])
+
+        acc_list.append(acc)
+
+    # Draw the line chart of K and accuracy.
+    plt.plot(k_list, acc_list)
+    plt.xlabel('K', fontsize=12)
+    plt.ylabel('Accuracy', fontsize=12)
+    plt.tick_params(axis='both', which='major', labelsize=12)
+    plt.show()
+
+
 if __name__ == '__main__':
-    pass
+    # TODO: Testflight.
+    main()
+
+    # TODO: Jupyter notebook format needed.

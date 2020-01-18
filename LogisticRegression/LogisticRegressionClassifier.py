@@ -4,13 +4,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Import h5py into numpy matrices
-with h5py.File('./data/train/images_training.h5', 'r') as H:
+with h5py.File('../data/train/images_training.h5', 'r') as H:
     data_train = np.copy(H['datatrain'])
-with h5py.File('./data/train/labels_training.h5', 'r') as H:
+with h5py.File('../data/train/labels_training.h5', 'r') as H:
     label_train = np.copy(H['labeltrain'])
-with h5py.File('./data/test/images_testing.h5', 'r') as T:
+with h5py.File('../data/test/images_testing.h5', 'r') as T:
     data_test = np.copy(T['datatest'])
-with h5py.File('./data/test/labels_testing_2000.h5', 'r') as T:
+with h5py.File('../data/test/labels_testing_2000.h5', 'r') as T:
     label_test = np.copy(T['labeltest'])
 
 # Number of different classes.

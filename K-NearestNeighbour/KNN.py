@@ -45,11 +45,13 @@ def distance(test, train):
 
     print('L2 distance calculation completed.')
     print('Time cost: ' + str(end_ - start_) + ' s.')
+    print(np.shape(D))
     return D
 
 
 # Sort the points by distance.
 # Bubble sort algorithm.
+# Time cost too high to use.
 def bubblesort(seq, label):
     flag = True
     r_seq = seq.copy()
@@ -76,16 +78,40 @@ def bubblesort(seq, label):
     return list(zip(r_seq, r_label))
 
 
+# Quick sort.
+# TODO: Need modification.
+def quicksort(seq, low, high):
+    i = low
+    j = high
+
+    if low < high:
+        base = seq[low]
+        while i < j:
+            while seq[j] > base and j > i:
+                j -= 1
+            if j > i:
+                seq[i] = seq[j]
+                i += 1
+            
+            while seq[i] < base and i < j:
+                i += 1
+            if i < j:
+                seq[j] = seq[i]
+                j -= 1
+            
+        seq[i] = base
+
+        quicksort(seq, low, i-1)
+        quicksort(seq, i+1, high)
+
+
 # Get the first K nearest neighbours and count the vote.
 def vote_count(k, sorted_list, C):
-    # TODO: Slow calculation in vote_count()
-
     vote_count = np.zeros(C)
     i = 0
     while i <= k:
         index = sorted_list[i][1]
         vote_count[index] += 1
-
     return np.argmax(vote_count)
 
 
@@ -99,17 +125,16 @@ def predict(distance, label, k, C):
     # Traverse each row in the distance matrix.
     i = 0
     for single in distance:
-        sorted_list = bubblesort(single, label)
+        sorted_list = bubblesort(single, label) # TODO: Transfer buble sort to quick sort.
         y_pred[i] = vote_count(k, sorted_list, C)
         i += 1
-
     return y_pred
 
 
 # Calculate the accuracy.
-def accuracy(y_pred, y_ture):
-    out = sum(y_pred == y_ture)
-    return (out / len(y_pred))
+def accuracy(y_pred, y_true):
+    out = sum(y_pred == y_true)
+    return out / len(y_pred)
 
 
 # Classifier runs from here.
@@ -122,11 +147,11 @@ def main(k=3):
     time_start = time.time()
     
     # Use a small portion of data for test.
-    D = distance(data_test[:800], data_train[:80000])
-    label_predict = predict(D, label_train[:8000], k, C)
+    D = distance(data_test[:500], data_train[:5000])
+    label_predict = predict(D, label_train[:5000], k, C)
     time_end = time.time()
 
-    acc = accuracy(label_predict, label_test[:800])
+    acc = accuracy(label_predict, label_test[:500])
     print("Accuracy of model on test set: {:.2%}".format(acc))
     print("Time: {:.3f} s.".format(time_end - time_start))
 

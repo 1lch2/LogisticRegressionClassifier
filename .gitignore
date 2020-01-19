@@ -131,6 +131,7 @@ dmypy.json
 # Added by me.
 # Visual Studio Code setting file
 .vscode/
+.idea/
 
 # Module test file.
 K-NearestNeighbour/test.py

@@ -1,3 +1,7 @@
+# @Author   : 1lch2
+# @Time     : 2020/01/20
+# @GitHub   : github.com/1lch2/LogisticRegressionClassifier
+
 import h5py
 import time
 from datetime import datetime
@@ -42,7 +46,7 @@ def distance(test, train):
     
     end_ = time.time()
     print('L2 distance calculation completed.')
-    print('Time cost: ' + str(round(end_ - start_)) + ' s.')
+    print('Time: ' + str(round(end_ - start_)) + ' s.')
     return D
 
 
@@ -79,18 +83,18 @@ def quicksort(seq, label, low, high):
 
 # Get the first K nearest neighbours and count the vote.
 def vote_count(k, sorted_list, C):
-    vote_count = np.zeros(C)
+    vote_counter = np.zeros(C)
     i = 0
-    while i <= k:
+    while i < k:
         index = sorted_list[i][1]
-        vote_count[index] += 1
+        vote_counter[index] += 1
         i += 1
-    return np.argmax(vote_count)
+    return np.argmax(vote_counter)
 
 
 # Make predictions.
-def predict(distance, label, k, C):
-    y_pred = np.zeros(np.shape(label))
+def predict(distance, label, k, c):
+    y_pred = np.zeros(np.shape(distance)[0])
 
     t = datetime.now()
     print('Counting vote: ' + str(t.strftime("%Y.%m.%d %H:%M:%S")))
@@ -102,38 +106,36 @@ def predict(distance, label, k, C):
         label_r = label.copy()
         quicksort(row, label_r, 0, len(row)-1)
         sorted_list = list(zip(row, label_r))
-        y_pred[i] = vote_count(k, sorted_list, C)
+        y_pred[i] = vote_count(k, sorted_list, c)
         i += 1
     return y_pred
 
 
 # Calculate the accuracy.
-# FIXME: TypeError: 'bool' object is not iterable
 def accuracy(y_pred, y_true):
-    out = sum(y_pred == y_true) 
+    out = sum(y_pred == y_true for y_pred, y_true in zip(y_pred, y_true)) 
     return out / len(y_pred)
 
 
 # Classifier runs from here.
-def main(k=2):
+def main(k=3):
     t = datetime.now()
     print('Training start: ' + str(t.strftime("%Y.%m.%d %H:%M:%S")))
 
     data_train, label_train, data_test, label_test, C = loaddata()
     
     time_start = time.time()
-    D = distance(data_test[:1000], data_train[:15000])
-    label_predict = predict(D, label_train[:15000], k, C)
+    D = distance(data_test[:2000], data_train)
+    label_predict = predict(D, label_train, k, C)
     time_end = time.time()
 
-    acc = accuracy(label_predict, label_test[:1000])
+    acc = accuracy(label_predict, label_test[:2000])
     print("Accuracy of model on test set: {:.2%}".format(acc))
-    print("Time: {:.3f} s.".format(round(time_end - time_start)))
+    print("Time: {:.3f} s.".format(time_end - time_start))
 
-    # TODO: Remove annotation after testing.
-    # # Export the prediction into h5py file.
-    # h5file = h5py.File('./predicted_labels.h5', 'w')
-    # h5file.create_dataset('output', data=label_predict)
+    # Export the prediction into h5py file.
+    h5file = h5py.File('./predicted_labels.h5', 'w')
+    h5file.create_dataset('output', data=label_predict)
 
 
 # Tuning parameter K and draw a plot.
@@ -159,4 +161,5 @@ def tuning():
 if __name__ == '__main__':
     main()
 
+    # TODO: Tuning parameter.
     # TODO: 10-fold cross-validation.

@@ -25,8 +25,8 @@ predict_labels.h5 file will be generated in 'Output' folder.
 - Running time: 300s
 - Accuracy: 84%
 ### K-NN
-- Running time: 
-- Accuracy:
+- Running time: 929s
+- Accuracy: 84.3%
 
 ## Reference
 [1]逻辑回归与交叉熵. https://zhuanlan.zhihu.com/p/38853901 <br />

@@ -1,7 +1,8 @@
 # Explanation
-This is part of the assignment for study unit COMP5318 from University of Sydney.The goal of this assignment is to build a classifier to classify some grayscale images of the size 28x28 into a set of categories.<br />
+This is part of the assignment for study unit COMP5318 and COMP5329 from University of Sydney.The goal of this assignment is to build a classifier to classify some grayscale images of the size 28x28 into a set of categories.<br />
 Implemented with NumPy and h5py.
-## Dataset
+## Dataset 
+### For LR and KNN
 The dataset consists of a training set of 30,000 examples and a test set of 5,000 examples. They belong to 10 different categories. The validation set is not provided. The labels of the first 2,000 test examples are given. The rest 3,000 labels of the test set are reserved for marking purpose.<br />
 Here are examples illustrating sample of the dataset (each class takes one row):<br />
 <img src="https://github.com/1lch2/LogisticRegressionClassifier/blob/master/LogisticRegression/img/Dataset_image.jpg" alt="DataSet" title="DataSet" width="450" height="300" /><br />
@@ -17,6 +18,8 @@ There are 10 classes in total:<br />
 8 Bag<br />
 9 Ankle boot <br />
 
+### For NN
+()
 ## Code Instructions (for .ipynb only)
 Training and testing data are located in 'data' folder.<br />
 predict_labels.h5 file will be generated in 'Output' folder.
